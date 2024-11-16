@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Online Exam</title>
+    <style>
+        /* General Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Background Styling */
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #1e90ff, #ff6347);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Form Container */
+        .form-container {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+            max-width: 400px;
+            width: 100%;
+        }
+
+        /* Form Heading */
+        .form-container h2 {
+            text-align: center;
+            margin-bottom: 1rem;
+            color: #333;
+        }
+
+        /* Select Inputs */
+        .form-container select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        /* Submit Button */
+        .form-container button {
+            width: 100%;
+            padding: 10px;
+            background-color: #1e90ff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .form-container button:hover {
+            background-color: #ff6347;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 480px) {
+            .form-container {
+                padding: 1.5rem;
+            }
+
+            .form-container h2 {
+                font-size: 20px;
+            }
+        }
+    </style>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <div class="form-container">
+        <h2>Select Details</h2>
+        <form action="/get-questions" method="get">
+            <select id="classSelect" name="class_id">
+                <option value="">Select Class</option>
+                <th:block th:each="class : ${classInfoList}">
+                    <option th:value="${class.id}" th:text="${class.name}"></option>
+                </th:block>
+            </select>
+
+            <select id="subjectSelect" name="subject_id">
+                <option value="">Select Subject</option>
+            </select>
+
+            <button type="submit">Get Questions</button>
+        </form>
+    </div>
+
+    <script>
+        $(document).ready(function () {
+            $('#classSelect').change(function () {
+                var classId = $(this).val();
+                $('#subjectSelect').empty(); // Clear existing options
+                if (classId) {
+                    $.ajax({
+                        url: '/get-subjects',
+                        type: 'GET',
+                        data: { class_id: classId },
+                        success: function (data) {
+                            $('#subjectSelect').append('<option value="">Select Subject</option>');
+                            data.forEach(function (subject) {
+                                $('#subjectSelect').append(
+                                    '<option value="' + subject.id + '">' + subject.name + '</option>'
+                                );
+                            });
+                        },
+                        error: function () {
+                            alert('Error fetching subjects!');
+                        }
+                    });
+                } else {
+                    $('#subjectSelect').append('<option value="">Select Subject</option>');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

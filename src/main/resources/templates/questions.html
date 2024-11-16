@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Questions</title>
+</head>
+<body>
+    <h1>Question List</h1>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Question ID</th>
+                <th>Question Name</th>
+                <th>Class ID</th>
+                <th>Subject ID</th>
+                <th>Status</th>
+                <th>Org ID</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="question : ${questions}">
+                <td th:text="${question.pkQuestionId}">1</td>
+                <td th:text="${question.questionName}">Sample Question</td>
+                <td th:text="${question.fkClassId}">1</td>
+                <td th:text="${question.fkSubjectId}">1</td>
+                <td th:text="${question.questionStatus}">A</td>
+                <td th:text="${question.fkOrgId}">1</td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>

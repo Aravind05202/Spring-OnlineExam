@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Question List</title>
+    <style>
+        /* General body styling */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Center the content */
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            margin-top: 30px;
+        }
+
+        /* Container to center the form */
+        .container {
+            width: 80%;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+
+        /* Table styling */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #3498db;
+            color: white;
+            font-weight: bold;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        /* Submit button styling */
+        button {
+            padding: 10px 20px;
+            background-color: #27ae60;
+            color: white;
+            border: none;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #2ecc71;
+        }
+
+        /* Link styling */
+        a {
+            color: #2980b9;
+            text-decoration: none;
+            font-size: 16px;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        /* Add some space before the submit button */
+        .form-actions {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        /* Back link styling */
+        .back-link {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Question List</h1>
+
+    <!-- Main container for form -->
+    <div class="container">
+        <!-- Form for submitting selected questions -->
+        <form action="/edit_questions" method="POST">
+            <!-- Hidden fields to retain class and subject information when the form is submitted -->
+            <input type="hidden" name="class_id" th:value="${classId}">
+            <input type="hidden" name="subject_id" th:value="${subjectId}">
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Select</th>
+                        <th>Question Name</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Loop through the questions list and display each question -->
+                    <tr th:each="question : ${questions}">
+                        <td>
+                            <!-- Checkbox for selecting questions -->
+                            <input type="checkbox" name="arr_question_id[]" th:value="${question.id}">
+                        </td>
+                        <td th:text="${question.name}"></td>
+                        <td>
+                            <!-- Edit link with dynamic query parameters for question ID and name -->
+                            <a th:href="@{'/edit_questions?ques_id=' + ${question.id} + '&ques_name=' + ${question.name}}">Edit</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <!-- Submit button for the selected questions -->
+            <div class="form-actions">
+                <button type="submit">Submit</button>
+            </div>
+        </form>
+    </div>
+
+    <!-- Back link -->
+    <a href="/modify_question" class="back-link">Back to Modify Questions</a>
+
+</body>
+</html>
