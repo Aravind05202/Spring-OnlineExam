@@ -41,26 +41,13 @@ public class ModifyController {
         return "modify_question";
     }
 
-    /**
-     * Retrieves subjects based on the selected class ID.
-     *
-     * @param classId the ID of the selected class
-     * @return a list of subjects linked to the selected class
-     */
     @GetMapping("/get-subjects")
     @ResponseBody
     public List<SubjectInfo> getSubjectsByClass(@RequestParam("class_id") String classId) {
         return subjectInfoService.getSubjectsByClassId(classId);
     }
 
-    /**
-     * Retrieves and displays questions based on selected class and subject IDs.
-     *
-     * @param classId    the ID of the selected class
-     * @param subjectId  the ID of the selected subject
-     * @param model      the model to pass data to the view
-     * @return the view to display questions
-     */
+    
     @GetMapping("/get-questions")
     public String getQuestionsByClassAndSubject(@RequestParam("class_id") String classId, 
                                                 @RequestParam("subject_id") String subjectId, 
